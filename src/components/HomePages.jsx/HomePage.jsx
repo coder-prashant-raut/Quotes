@@ -13,14 +13,11 @@ function HomePage() {
   };
 
   const Image = () => {
-// fetch("https://random-image-pepebigotes.vercel.app/api/random-image")
-// .then((res)=> res.json())
-// .then(console.log)
-
-fetch("https://random-image-pepebigotes.vercel.app/api/random-image")
-.then((res) => res.json())
-.then(setImage);
-
+    fetch("https://api.allorigins.win/get?url=https://random-image-pepebigotes.vercel.app/api/random-image")
+    .then((res) => res.json())
+    .then((data) => console.log(data)) // Check the response structure
+    .catch((err) => console.error("Error fetching image:", err));
+  
   }
 
  console.log(quote);
@@ -33,12 +30,27 @@ fetch("https://random-image-pepebigotes.vercel.app/api/random-image")
       <Navbar />
 
       <div className="">
-        <h1>hey</h1>
+      <div className="w-200 min-h-screen bg-gray-200 flex items-center justify-center px-5 py-5">
+    <div className="w-full mx-auto rounded-lg bg-white shadow-lg px-5 pt-5 pb-10 text-gray-800" >
+        <div className="w-full pt-1 pb-5">
+            <div className="overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg">
+                <img src="https://randomuser.me/api/portraits/men/15.jpg" alt=""/>
+            </div>
+        </div>
+        <div className="w-full mb-10">
+            <div className="text-3xl text-indigo-500 text-left leading-tight h-3">“</div>
+            <p className="text-sm text-gray-600 text-center px-5">{quote.quote}</p>
+            <div className="text-3xl text-indigo-500 text-right leading-tight h-3 -mt-3">”</div>
+        </div>
+        <div className="w-full">
+            <p className="text-md text-indigo-500 font-bold text-center">{quote.author}</p>
+        <button className=" " onClick={Quote}>Gen Quote</button> 
+           
+        </div>
+    </div>
+</div>
 
-        <h3>{quote.quote}</h3><br />
-        <h3>{quote.author}</h3>
 
-        <button className=" " onClick={Quote}>Gen Quote</button>
       </div>
     </div>
   );
