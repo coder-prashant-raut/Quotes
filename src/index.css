@@ -1,8 +1,1 @@
 @import "tailwindcss";
-@import url(https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css);
-
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
