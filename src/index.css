@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+
+
+/* Ise replace karein */
+.myDiv {
+  background-color: rgb(100, 150, 200); /* Ya koi bhi RGB ya HEX value */
+}
