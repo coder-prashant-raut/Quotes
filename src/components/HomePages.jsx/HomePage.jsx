@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import imageArray from "../../image/Image";
-import domtoimage from "dom-to-image-more";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
+import html2canvas from "html2canvas";
 
 function HomePage() {
     const [quote, setQuote] = useState({});
     const [copied, setCopied] = useState(false);
     const [bgImage, setBgImage] = useState("");
 
-
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // Or your own proxy
-const imageUrl = "https://i.pinimg.com/736x/ad/e9/48/ade94889319475e835f26231f1e490dd.jpg";
-const finalUrl = proxyUrl + imageUrl;
 
 
     const fetchQuote = () => {
@@ -25,24 +21,46 @@ const finalUrl = proxyUrl + imageUrl;
     };
 
   
-const downloadQuoteAsImage = () => {
-    const node = document.getElementById('quote-container');
 
-    domtoimage.toPng(node, {
-        quality: 1, // High resolution
+
+{/* dowload code here*/}
+
+
+const captureAndDownload = () => {
+    const quoteContainer = document.getElementById("quote-container");
+
+    html2canvas(quoteContainer, {
+        allowTaint: true,
         useCORS: true,
-        bgcolor: "white", // Ensure background is captured
-    })
-    .then((dataUrl) => {
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'quote.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    })
-    .catch((error) => console.error('Error generating image:', error));
+        backgroundColor: null, // Keep transparency
+        onclone: (clonedDocument) => {
+            const clonedQuoteContainer = clonedDocument.getElementById("quote-container");
+            clonedQuoteContainer.style.backgroundImage = `url(${bgImage})`; // Reapply background
+        }
+    }).then((canvas) => {
+        const dataURL = canvas.toDataURL("image/png");
+        downloadImage(dataURL, "quote.png");
+    });
 };
+
+function downloadImage(data, filename = "quote.png") {
+    const a = document.createElement("a");
+    a.href = data;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+
+
+{/* dowload code here*/}
+
+
+
+
+
+
 
 
     const copyToClipboard = () => {
@@ -77,21 +95,44 @@ const downloadQuoteAsImage = () => {
                 {/* Quote Card with Background Image */}
                 <div 
                     id="quote-container"
-                    className="max-w-2xl w-full h-auto mx-auto rounded-lg bg-cover shadow-lg px-5 pt-5 pb-10 text-gray-800 relative"
+                    className="quote-container"
                     style={{
                         backgroundImage: `url(${bgImage})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        width: "500px",  // Ensures full capture
-                        minHeight: "300px", // Ensures full capture
+                        // width: "500px",
+                        // height: "300px",
+                        borderRadius: "15px",
                         padding: "20px",
+                        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                        color: "#fff",
+                        position: "relative"
                     }}
                 >
-                    <div className="bg-[rgba(255,255,255,0.7)] p-5 rounded-lg">
-                        <div className="text-6xl text-red-700 text-left h-5">“</div>
-                        <p className="text-2xl font-extrabold text-black-900 text-center px-5">{quote?.quote || "Loading..."}</p>
-                        <div className="text-6xl text-red-700 text-right leading-tight h-5 -mt-3">”</div>
-                        <p className="text-md bg-[rgba(206,197,127,0.5)] text-indigo-700 font-bold text-center mt-3 rounded-b-sm">
+                    <div className="quote-box" style={{
+                        background: "rgba(0, 0, 0, 0.5)",
+                        padding: "20px",
+                        borderRadius: "10px",
+                        width: "90%",
+                    }}>
+                        <div className="quote-mark" style={{ fontSize: "40px", color: "#ffcc00" }}>“</div>
+                        <p className="quote-text" style={{ fontSize: "22px", fontWeight: "bold" }}>
+                            {quote?.quote || "Loading..."}
+                        </p>
+                        <div className="quote-mark" style={{ fontSize: "40px", color: "#ffcc00" }}>”</div>
+                        <p className="quote-author" style={{
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                            marginTop: "10px",
+                            background: "rgba(255, 255, 255, 0.2)",
+                            padding: "5px",
+                            borderRadius: "5px"
+                        }}>
                             {quote?.author || "Unknown"}
                         </p>
                     </div>
@@ -102,7 +143,7 @@ const downloadQuoteAsImage = () => {
                     <div className="flex justify-center items-center gap-4">
                         <button className="bg-amber-300 p-2 shadow-lg cursor-pointer rounded-sm hover:bg-amber-500" onClick={fetchQuote}>New Quote</button>
                         <button className="bg-green-300 p-2 shadow-lg cursor-pointer rounded-sm hover:bg-green-500" onClick={copyToClipboard}>{copied ? "Copied!" : "Copy"}</button>
-                        <button className="bg-blue-300 p-2 shadow-lg cursor-pointer rounded-sm hover:bg-blue-500" onClick={downloadQuoteAsImage}>Download</button>
+                        <button className="bg-blue-300 p-2 shadow-lg cursor-pointer rounded-sm hover:bg-blue-500"  onClick={captureAndDownload}>Download</button>
                     </div>
                 </div>
 
@@ -117,6 +158,17 @@ const downloadQuoteAsImage = () => {
                         <small>Share on WhatsApp</small>
                     </a>
                 </div>
+
+
+             
+
+
+
+
+
+
+
+
             </div>
         </div>
     );
