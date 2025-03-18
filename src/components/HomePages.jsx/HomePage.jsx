@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import imageArray from "../../image/Image";
 import domtoimage from "dom-to-image";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa";
 
 function HomePage() {
     const [quote, setQuote] = useState({});
@@ -53,6 +55,10 @@ function HomePage() {
     useEffect(() => {
         fetchQuote();
     }, []);
+
+
+    const textToCopy = `"${quote.quote}" - ${quote.author}`;
+
 
     return (
         <div className="min-h-screen w-full bg-gray-100 flex justify-center items-center">
@@ -112,6 +118,52 @@ function HomePage() {
                         </button>
                     </div>
                 </div>
+
+                <div className="max-w-2xl flex justify-around mx-auto rounded-lg ">
+      {/* Twitter Share Button */}
+      <a
+        href={`https://twitter.com/intent/tweet?text=${textToCopy}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center p-2 text-white shadow-lg cursor-pointer rounded-sm bg-blue-500 hover:bg-blue-600"
+        aria-label="Share on Twitter"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+         <FaXTwitter />
+        </svg>
+        <small>Share on Twitter</small>
+      </a>
+
+      {/* WhatsApp Share Button */}
+      <a
+        href={`https://api.whatsapp.com/send?text=${textToCopy}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className=" flex items-center p-2 text-white shadow-lg cursor-pointer rounded-sm bg-green-500 hover:bg-green-600"
+        aria-label="Share on WhatsApp"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+        <FaWhatsapp />  
+          
+        </svg>
+        <small>Share on WhatsApp</small>
+      </a>
+    </div>
+
+
+
 
             </div>
         </div>
