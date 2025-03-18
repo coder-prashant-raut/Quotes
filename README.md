@@ -1,5 +1,6 @@
 # MasterJi's Quote's
 A Random Quote Generator Created using ReactJs Tailwindcss And Random Quote's API.
+https://masterjisquotes.netlify.app/
 
 ## Specifications
 
