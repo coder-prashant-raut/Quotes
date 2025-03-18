@@ -14,3 +14,8 @@
    
   
 }
+
+.bg-custom {
+    background-color: rgb(255, 200, 100) !important; /* Instead of oklch() */
+  }
+  
